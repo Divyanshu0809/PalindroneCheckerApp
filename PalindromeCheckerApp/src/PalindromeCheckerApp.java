@@ -4,18 +4,23 @@ public class PalindromeCheckerApp {
         Scanner sc=new Scanner(System.in);
         System.out.println("Enter a word : ");
         String wrd=sc.nextLine(),temp = "";
-        char[] chars=wrd.toCharArray();
-        int start=0;
-        int end=chars.length-1;
-        while(start<end) {
-            if (chars[start] != chars[end]) {
+        Stack<Character> stack=new Stack<>();
+        for(char c:wrd.toCharArray())
+        {
+            stack.push(c);
+        }
+        boolean isPalindrome =true;
+        for(char c:wrd.toCharArray())
+        {
+            if(c!=stack.pop()) {
+                isPalindrome = false;
                 System.out.println("Not Palindrome");
                 System.exit(0);
             }
-            start++;
-            end--;
         }
-        System.out.println("Palindrome");
+        if(isPalindrome)
+            System.out.println("Palindrome");
+
 
     }
 }
