@@ -1,54 +1,29 @@
 import java.util.*;
 
 public class PalindromeCheckerApp {
+    private static boolean check(String s, int start, int end) {
+        if (start < end) {
+            if (s.charAt(start) != s.charAt(end))
+                return false;
+            else
+                return check(s, start + 1, end - 1);
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter a word : ");
-        String wrd = sc.nextLine();
+        System.out.println("Enter a word: ");
 
-        // Using Deque
-        String temp = "";
-        Deque<Character> deque = new ArrayDeque<>();
+        String input = sc.nextLine();
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
-        for (char c : wrd.toCharArray()) {
-            deque.addLast(c);
-        }
-
-        boolean isPalindrome = true;
-
-        while (deque.size() > 1) {
-            if (deque.removeLast() != deque.removeFirst()) {
-                isPalindrome = false;
-                break;
-            }
-        }
+        boolean isPalindrome = check(normalized, 0, normalized.length() - 1);
 
         if (isPalindrome)
-            System.out.println("Palindrome (using Deque)");
+            System.out.println("The word is a Palindrome");
         else
-            System.out.println("Not Palindrome (using Deque)");
-
-        // Using LinkedList
-        LinkedList<Character> list = new LinkedList<>();
-
-        for (char c : wrd.toCharArray()) {
-            list.add(c);
-        }
-
-        boolean isPalindromeList = true;
-
-        while (list.size() > 1) {
-            if (list.removeFirst() != list.removeLast()) {
-                isPalindromeList = false;
-                break;
-            }
-        }
-
-        if (isPalindromeList)
-            System.out.println("Word is Palindrome (using LinkedList)");
-        else
-            System.out.println("Word is not Palindrome (using LinkedList)");
+            System.out.println("The word is not a Palindrome");
 
         sc.close();
     }
