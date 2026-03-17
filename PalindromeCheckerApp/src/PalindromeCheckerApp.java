@@ -1,30 +1,51 @@
 import java.util.*;
 
 public class PalindromeCheckerApp {
-    private static boolean check(String s, int start, int end) {
-        if (start < end) {
-            if (s.charAt(start) != s.charAt(end))
-                return false;
-            else
-                return check(s, start + 1, end - 1);
-        }
-        return true;
-    }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        PalindromeStrategy strategy = new StackStrategy();
+
         System.out.println("Enter a word: ");
+        String wrd = sc.nextLine();
 
-        String input = sc.nextLine();
-        String normalized = input.replaceAll("\\s+", "").toLowerCase();
+        boolean isPalindrome = strategy.check(wrd);
 
-        boolean isPalindrome = check(normalized, 0, normalized.length() - 1);
-
-        if (isPalindrome)
-            System.out.println("The word is a Palindrome");
-        else
-            System.out.println("The word is not a Palindrome");
+        System.out.println("Input: " + wrd);
+        if (isPalindrome) {
+            System.out.println("Result: Word is a Palindrome");
+        } else {
+            System.out.println("Result: Word is not a Palindrome");
+        }
 
         sc.close();
+    }
+}
+
+interface PalindromeStrategy {
+    boolean check(String input);
+}
+
+class StackStrategy implements PalindromeStrategy {
+    @Override
+    public boolean check(String input) {
+        if (input == null || input.isEmpty()) return false;
+
+        // Normalize: remove spaces and ignore case
+        String cleanedInput = input.replaceAll("\\s+", "").toLowerCase();
+        Stack<Character> stack = new Stack<>();
+
+        // Push all characters onto the stack
+        for (char c : cleanedInput.toCharArray()) {
+            stack.push(c);
+        }
+
+        // Pop and compare
+        for (char c : cleanedInput.toCharArray()) {
+            if (c != stack.pop()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
